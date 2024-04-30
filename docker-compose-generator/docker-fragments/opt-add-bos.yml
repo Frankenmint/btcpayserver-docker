@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  bos:
+    image: alexbosworth/balanceofsatoshis
+    container_name: balanceofsatoshis
+    tty: true
+    volumes:
+      - ${APP_DATA_DIR}/.bos:/home/node/.bos
+      - ${LND_DATA_DIR}:/home/node/.lnd:ro
+    environment:
+      - LND_IP=$LND_IP
+      - LND_PORT=$LND_GRPC_PORT
+      - NETWORK=$BITCOIN_NETWORK
+      - USER_NAME=node
+      - USER_PASSWORD=$APP_PASSWORD
+    ports:
+      - "$APP_BOS_PORT:$APP_BOS_PORT"
+    networks:
+      default:
+        ipv4_address: $APP_BOS_IP
